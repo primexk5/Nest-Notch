@@ -1,16 +1,23 @@
 'use client';
+
 import React, { useState } from 'react';
-import { products } from '../../data/products';
+import { products } from '@/app/data/products';
 import Image from 'next/image';
 import { FiShoppingCart } from 'react-icons/fi';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useCart } from '@/app/molecules/CartContent';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/app/context/CartContext';
+import { useAuth } from '@/app/context/AuthContext';
+import toast from 'react-hot-toast';
 
 const ProductDetailPage = ({ params }) => {
-  const { id } = params;
+  const router = useRouter();
+  const unwrappedParams = React.use(params);
+  const { id } = unwrappedParams;
   const product = products.find((p) => p.id === parseInt(id));
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const [quantity, setQuantity] = useState(1);
 
   if (!product) {
@@ -18,8 +25,13 @@ const ProductDetailPage = ({ params }) => {
   }
 
   const handleAddToCart = () => {
+    if (!user) {
+      toast.error('Please log in to add items to your cart.', { duration: 4000 });
+      router.push('/login');
+      return;
+    }
     addToCart(product, quantity);
-    // Optionally, show a confirmation message
+    toast.success(`${quantity} ${product.name} added to cart!`);
   };
 
   return (
@@ -49,14 +61,15 @@ const ProductDetailPage = ({ params }) => {
             <p className="text-lg text-gray-600 mb-8">{product.description}</p>
             <div className="flex items-center mb-8">
               <label htmlFor="quantity" className="mr-4 font-medium">Quantity:</label>
-              <input 
-                type="number" 
-                id="quantity" 
-                name="quantity" 
-                min="1" 
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="1"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-                className="w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" />
+                className="w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
+              />
             </div>
             <button onClick={handleAddToCart} className="w-full bg-gray-900 text-white p-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center space-x-2">
               <FiShoppingCart />

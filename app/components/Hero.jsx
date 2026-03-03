@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Hero = () => {
   return (
-    <div className='h-screen bg-gradient-to-br mt-20  p-4'>
+    <div className=' bg-gradient-to-br mt-20 mb-48  p-4'>
       {/* Search Bar */}
       <div className='pt-5 flex justify-center mt-20 items-center px-4'>
         <div className='flex items-center border border-gray-300 w-full max-w-md p-2 rounded-full shadow-sm bg-gray-100'>
