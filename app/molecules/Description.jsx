@@ -28,26 +28,48 @@ const ProductCard = ({ product }) => {
 
 
   return (
-    <div key={product.id} className="border border-black rounded-lg overflow-hidden cursor-pointer">
-      <Link href={`/products/${product.id}`}>
-        <div className="relative">
-          <img src={product.image} alt={product.name} className="w-full h-48 sm:h-64 object-cover" />
-          <div className="absolute top-2 right-2 flex flex-col space-y-2">
-            <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-200">
-              <FiHeart className="text-black" />
-            </button>
-          </div>
-        </div>
-      </Link>
-      <div className="p-4">
-        <h2 className="text-lg font-semibold">{product.name}</h2>
-        <p className="text-gray-600">{product.price}</p>
-        <div className="mt-4">
-          <button onClick={handleAddToCart} className="bg-black text-white w-full py-2 px-4 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-800">
-            <FiShoppingCart />
-            <span>Add to Cart</span>
+    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+      <Link href={`/products/${product.id}`} className="block relative overflow-hidden aspect-[4/5] bg-gray-50">
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+        />
+        
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Floating Actions */}
+        <div className="absolute top-4 right-4 flex flex-col space-y-3 translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+          <button className="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:scale-110 hover:text-red-500 transition-all text-gray-700">
+            <FiHeart size={18} />
           </button>
         </div>
+      </Link>
+      
+      <div className="p-5">
+        <div className="flex justify-between items-start mb-2">
+          <Link href={`/products/${product.id}`}>
+            <h2 className="text-lg font-bold text-gray-900 group-hover:text-gray-700 transition-colors line-clamp-1">
+              {product.name}
+            </h2>
+          </Link>
+          <p className="text-lg font-semibold text-gray-900 whitespace-nowrap ml-2">
+            {product.price}
+          </p>
+        </div>
+        
+        <p className="text-sm text-gray-500 line-clamp-2 mb-6 min-h-[40px]">
+          {product.description}
+        </p>
+        
+        <button 
+          onClick={handleAddToCart} 
+          className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl flex items-center justify-center space-x-2 hover:bg-gray-800 transition-all duration-300 active:scale-[0.98] shadow-md hover:shadow-lg"
+        >
+          <FiShoppingCart size={18} />
+          <span className="font-semibold text-sm tracking-wide">Add to Cart</span>
+        </button>
       </div>
     </div>
   );

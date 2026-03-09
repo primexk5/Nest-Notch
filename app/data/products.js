@@ -83,4 +83,25 @@ export const products = [
     image: '/shoe.webp',
     description: 'Lightweight running shoes engineered for maximum energy return and breathability.'
   },
+  {
+    id: 13,
+    name: 'Canvas Weekender Bag',
+    price: '$79.99',
+    image: '/shoe.webp',
+    description: 'Durable heavy-duty canvas bag with leather handles, perfect for short trips and weekend getaways.'
+  },
+  {
+    id: 14,
+    name: 'Stainless Steel Water Bottle',
+    price: '$34.99',
+    image: '/car1.jpg',
+    description: 'Double-walled vacuum insulated bottle that keeps your drinks cold for 24 hours or hot for 12 hours.'
+  },
+  {
+    id: 15,
+    name: 'Oversized Sunglasses',
+    price: '$59.99',
+    image: '/car2.jpg',
+    description: 'Polarized oversized sunglasses offering 100% UV protection and a chic, timeless look.'
+  }
 ];
