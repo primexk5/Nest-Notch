@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import ProductCard from '../molecules/Description';
 import { useSearchParams } from 'next/navigation';
 import { products } from '../data/products';
@@ -41,7 +41,7 @@ const ProductAdvertisement = () => {
   );
 };
 
-const ShopPage = () => {
+const ShopContent = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('q');
 
@@ -98,5 +98,13 @@ const ShopPage = () => {
     </div>
   );
 };
+
+const ShopPage = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fafafa] flex items-center justify-center"><div className="w-8 h-8 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div></div>}>
+      <ShopContent />
+    </Suspense>
+  )
+}
 
 export default ShopPage;
