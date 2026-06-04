@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useRef, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -10,8 +10,12 @@ const VerifyContent = () => {
   const searchParams = useSearchParams();
   const { login } = useAuth();
   const [status, setStatus] = useState('verifying'); // 'verifying' | 'success' | 'invalid' | 'expired'
+  const hasVerified = useRef(false);
 
   useEffect(() => {
+    if (hasVerified.current) return;
+    hasVerified.current = true;
+
     const token = searchParams.get('token');
     if (!token) {
       setStatus('invalid');
