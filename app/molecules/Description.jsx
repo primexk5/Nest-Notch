@@ -30,10 +30,14 @@ const ProductCard = ({ product }) => {
   return (
     <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
       <Link href={`/products/${product.id}`} className="block relative overflow-hidden aspect-[4/5] bg-gray-50">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = `https://picsum.photos/seed/${product.id}/400/500`;
+          }}
         />
         
         {/* Hover Overlay */}

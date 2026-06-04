@@ -3,10 +3,12 @@ import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 const VerifyContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { login } = useAuth();
   const [status, setStatus] = useState('verifying'); // 'verifying' | 'success' | 'invalid' | 'expired'
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const VerifyContent = () => {
           return;
         }
 
-        // Save user to localStorage
+        // Save user to the users registry in localStorage
         const users = JSON.parse(localStorage.getItem('users') || '[]');
 
         // Guard: check if user already exists (e.g. double-click on link)
@@ -38,16 +40,19 @@ const VerifyContent = () => {
           localStorage.setItem('users', JSON.stringify(users));
         }
 
+        // Auto-login: set the current session so the user doesn't have to log in manually
+        login(data.formData);
+
         setStatus('success');
-        toast.success('Email verified! Redirecting to login...');
-        setTimeout(() => router.push('/login'), 2000);
+        toast.success('Email verified! You are now logged in. Redirecting...');
+        setTimeout(() => router.push('/'), 2000);
       } catch {
         setStatus('invalid');
       }
     };
 
     verify();
-  }, [searchParams, router]);
+  }, [searchParams, router, login]);
 
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-md text-center">
@@ -68,7 +73,7 @@ const VerifyContent = () => {
             </svg>
           </div>
           <h2 className="text-gray-900 font-bold text-lg mb-2">Email Verified!</h2>
-          <p className="text-gray-500 text-sm">Your account has been created. Redirecting to login...</p>
+          <p className="text-gray-500 text-sm">Your account has been created. You are now logged in. Redirecting...</p>
         </>
       )}
 

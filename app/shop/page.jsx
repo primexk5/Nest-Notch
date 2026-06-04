@@ -22,10 +22,14 @@ const ProductAdvertisement = () => {
               className="snap-start flex-shrink-0 w-[280px] group bg-white border border-gray-100/50 shadow-sm rounded-2xl overflow-hidden transform transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-xl cursor-pointer"
             >
               <div className="relative overflow-hidden aspect-[4/3]">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = `https://picsum.photos/seed/${product.id}/400/300`;
+                  }}
                 />
                 <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>

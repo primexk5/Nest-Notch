@@ -19,6 +19,7 @@ const ProductDetailPage = ({ params }) => {
   const { addToCart } = useCart();
   const { user } = useAuth();
   const [quantity, setQuantity] = useState(1);
+  const [imgError, setImgError] = useState(false);
 
   if (!product) {
     return <div>Product not found</div>;
@@ -51,13 +52,22 @@ const ProductDetailPage = ({ params }) => {
           {/* Image Section */}
           <div className="relative bg-white rounded-3xl p-4 sm:p-8 border border-gray-100 shadow-sm group">
             <div className="aspect-[4/5] relative overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                priority
-              />
+              {imgError ? (
+                <img
+                  src={`https://picsum.photos/seed/${product.id}/400/500`}
+                  alt={product.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
+                  onError={() => setImgError(true)}
+                />
+              )}
             </div>
             {/* Elegant decorative background blur */}
             <div className="absolute -inset-4 bg-gradient-to-tr from-gray-100 to-transparent opacity-0 group-hover:opacity-50 blur-2xl transition-opacity duration-700 -z-10 rounded-[3rem]" />
